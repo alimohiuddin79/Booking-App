@@ -1,5 +1,5 @@
 import express from "express";
-import { createHotel, deleteHotel, getHotelById, getHotels, updateHotel } from "../controllers/hotels.js";
+import { countByCity, countByType, createHotel, deleteHotel, getHotelById, getHotels, updateHotel } from "../controllers/hotels.js";
 import protect from "../middleware/authentication.js";
 
 
@@ -14,8 +14,13 @@ router.put("/:id", protect, updateHotel);
 router.delete("/:id", protect, deleteHotel);
 
 //GET
-router.get("/:id", getHotelById);
+router.get("/find/:id", getHotelById);
 
 //GET ALL
 router.get("/", getHotels);
+
+router.get("/countByCity", countByCity);
+
+router.get("/countByType", countByType);
+
 export default router;

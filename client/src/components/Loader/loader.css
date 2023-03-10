@@ -1,0 +1,20 @@
+.loadingContainer{
+    margin: 0 auto;
+}
+
+.loading{
+    align-self: center;
+    justify-self: center;
+    font-size: 30px;
+    color: lightslategray;
+    animation: rotate 1.5s 0.1s infinite normal;
+}
+
+@keyframes rotate{
+    0%{
+        transform: rotate(0);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}

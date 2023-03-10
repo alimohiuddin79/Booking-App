@@ -6,10 +6,13 @@ import MailList from "../../components/MailList/MailList";
 import Footer from "../../components/Footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowLeft, faCircleArrowRight, faCircleXmark, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import useFetch from "../../hooks/useFetch";
+import { useLocation } from "react-router-dom";
 
 
 const Hotel = () => {
 
+  // slider states
   const [sliderNumber, setSliderNumber] = useState(0);
 
   const [open, setOpen] = useState(false)
@@ -30,6 +33,12 @@ const Hotel = () => {
       setSliderNumber(newSliderNumber);
     }
   }
+
+  // check url path by location hook
+  const location = useLocation();
+  const id = location.pathname;
+  // fetch hotel data
+  const { data, loading, error } = useFetch(`/hotels/${id}`)
 
   const galleryImages = [
     {src: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/288128638.jpg?k=fdb9ae8ccf5185b5294b5d553078939470b2cd86ec0e72c64e64ed03e7a29160&o=&hp=1'},
