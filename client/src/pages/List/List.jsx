@@ -12,8 +12,11 @@ const List = () => {
 
   // home search state coming throught router-dom location
   const location = useLocation();
+  console.log(location.state.destination);
 
-  const [destination, setDestination] = useState(location.state.destination);
+  // const searchFromHome = location.state.destination !== null ? location.state.destination : "";
+
+  const [destination, setDestination] = useState(useLocation);
   const [date, setDate] = useState(location.state.date);
   const [options, setOptions] = useState(location.state.options);
 
