@@ -1,7 +1,7 @@
 import "./header.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBed, faCalendarDays, faCar, faL, faPerson, faPlane, faTaxi } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // calender package and component
@@ -11,6 +11,8 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 
 // date fns
 import { format } from "date-fns";
+import { SearchContext } from "../../context/SearchContext";
+import { AuthContext } from "../../context/AuthContext";
 
 
 const Header = ({ type }) => {
@@ -46,7 +48,12 @@ const Header = ({ type }) => {
     }
   ]);
 
+  const {dispatch} = useContext(SearchContext);
+
+  const { user } = useContext(AuthContext);
+
   const handleSearch = () =>{
+    dispatch({ type: "NEW_SEARCH", payload: { destination, date, options } });
     navigate('/hotels', { state: { destination, date, options }});
   }
 
@@ -82,7 +89,7 @@ const Header = ({ type }) => {
         
         {type !== 'list' && <><h1 className="headerTitle">A lifetime of discounts? It's Genius.</h1>
           <p className="headerDesc">Get rewarded for your travels - unlock instant savings of 10% or more with a free booking account</p>
-          <button className="headerBtn">Sign in / Register</button>
+          {!user && <button className="headerBtn">Sign in / Register</button>}
           <div className="headerSearch">
             <div className="headerSearchItem">
               <FontAwesomeIcon icon={faBed} className='headerIcon' />
