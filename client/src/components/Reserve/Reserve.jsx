@@ -1,6 +1,7 @@
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import useFetch from "../../hooks/useFetch";
 import "./reserver.css";
@@ -38,6 +39,8 @@ const Reserve = ({setOpenModal, hotelId}) => {
         return list;
     }
 
+    const navigate = useNavigate();
+
     const allDates = getDatesInRange(date[0].startDate, date[0].endDate);
 
     const isAvailable = (roomNumber) => {
@@ -46,9 +49,28 @@ const Reserve = ({setOpenModal, hotelId}) => {
         return !isFound;
     }
 
-    const handleClick = () => {
-        
+    const handleClick = async () => {
+        try {
+            await Promise.all(selectedRooms.map( async (roomId) => {
+                const response = await fetch(`http://localhost:5000/rooms/availability/${roomId}`,{
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ date: allDates})
+                });
+                const result = await response.json();
+                return result;
+            })
+            );
+            setOpenModal(false);
+            navigate("/");
+        } catch (error) {
+            console.log(error);
+        }
     }
+
+    console.log(data);
 
   return (
     <div className="reserve">
